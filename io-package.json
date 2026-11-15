@@ -1,0 +1,127 @@
+{
+    "common": {
+        "name": "siemens-7kt1666",
+        "version": "0.1.0",
+        "news": {
+            "0.1.0": {
+                "en": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "de": "Erstveröffentlichung: Siemens 7KT1666, Verbrauch je Tag/Monat/Jahr",
+                "ru": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "pt": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "nl": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "fr": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "it": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "es": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "pl": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "uk": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
+                "zh-cn": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption"
+            }
+        },
+        "titleLang": {
+            "en": "Siemens 7KT energy meter",
+            "de": "Siemens 7KT Energiezähler",
+            "ru": "Siemens 7KT energy meter",
+            "pt": "Siemens 7KT energy meter",
+            "nl": "Siemens 7KT energy meter",
+            "fr": "Siemens 7KT energy meter",
+            "it": "Siemens 7KT energy meter",
+            "es": "Siemens 7KT energy meter",
+            "pl": "Siemens 7KT energy meter",
+            "uk": "Siemens 7KT energy meter",
+            "zh-cn": "Siemens 7KT energy meter"
+        },
+        "desc": {
+            "en": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "de": "Siemens SENTRON 7KT PAC1600 Energiezähler über Modbus (RTU über TCP, Modbus TCP, RS-485)",
+            "ru": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "pt": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "nl": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "fr": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "it": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "es": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "pl": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "uk": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)",
+            "zh-cn": "Siemens SENTRON 7KT PAC1600 energy meters via Modbus (RTU over TCP, Modbus TCP, RS-485)"
+        },
+        "authors": [
+            "MMeinhardt1"
+        ],
+        "keywords": [
+            "siemens",
+            "7kt1666",
+            "pac1600",
+            "modbus",
+            "energy meter"
+        ],
+        "platform": "Javascript/Node.js",
+        "icon": "siemens-7kt1666.png",
+        "extIcon": "https://raw.githubusercontent.com/MMeinhardt1/ioBroker.siemens-7KT1666/main/admin/siemens-7kt1666.png",
+        "enabled": true,
+        "readme": "https://github.com/MMeinhardt1/ioBroker.siemens-7KT1666/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "energy",
+        "compact": true,
+        "adminUI": {
+            "config": "json"
+        },
+        "supportCustoms": false,
+        "tier": 2,
+        "connectionType": "local",
+        "dataSource": "poll",
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=8.0.0"
+            }
+        ],
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        }
+    },
+    "native": {
+        "model": "siemens-7kt1666",
+        "connectionType": "tcprtu",
+        "host": "",
+        "port": 502,
+        "unitId": 1,
+        "serialPort": "/dev/ttyUSB0",
+        "baudRate": 9600,
+        "parity": "none",
+        "stopBits": 1,
+        "pollInterval": 10,
+        "timeout": 3000,
+        "requestDelay": 100,
+        "retries": 1,
+        "maxBlock": 32
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Verbindung zum Zähler",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+  "Baud rate": "Baud rate",
+  "Connection": "Connection",
+  "Connection type": "Connection type",
+  "IP address / host": "IP address / host",
+  "Max. registers per request": "Max. registers per request",
+  "Modbus TCP": "Modbus TCP",
+  "Modbus unit ID": "Modbus unit ID",
+  "Model": "Model",
+  "Parity": "Parity",
+  "Pause between requests (ms)": "Pause between requests (ms)",
+  "Poll interval (s)": "Poll interval (s)",
+  "Polling": "Polling",
+  "Port": "Port",
+  "RTU over TCP (e.g. ESP bridge / stream_server)": "RTU over TCP (e.g. ESP bridge / stream_server)",
+  "Response timeout (ms)": "Response timeout (ms)",
+  "Retries without answer": "Retries without answer",
+  "Serial RS-485": "Serial RS-485",
+  "Serial port": "Serial port",
+  "Stop bits": "Stop bits",
+  "The 7KT1666 handles at most about 32": "The 7KT1666 handles at most about 32"
+}
