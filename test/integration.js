@@ -42,13 +42,14 @@ tests.integration(path.join(__dirname, '..'), {
                     native: {
                         model: 'siemens-7kt1666',
                         connectionType: 'tcprtu',
-                        host: '127.0.0.1',
+                        host: ' 127.0.0.1, ', // typo on purpose: must be cleaned up by the adapter
                         port: PORT,
                         unitId: 1,
                         pollInterval: 3,
                         timeout: 500,
                         requestDelay: 10,
                         retries: 1,
+                        logRawValues: true,
                         maxBlock: 32,
                     },
                 });
@@ -57,6 +58,7 @@ tests.integration(path.join(__dirname, '..'), {
                 const ns = 'siemens-power.0.';
                 const get = async id => (await harness.states.getStateAsync(ns + id))?.val;
                 assert.strictEqual(await get('info.connection'), true);
+                assert.ok((await get('info.responseMsMax')) >= 0, 'response time state');
                 assert.strictEqual(await get('Spannung.L1_N'), 231.5);
                 assert.strictEqual(await get('Strom.L1'), 0.467);
                 assert.strictEqual(await get('Leistung.Wirk_L1'), 2.97);
@@ -66,7 +68,10 @@ tests.integration(path.join(__dirname, '..'), {
                 assert.strictEqual(await get('Energie.Wirk_Bezug'), 12345.678);
                 assert.strictEqual(await get('Verbrauch.Bezug_heute'), 0);
                 assert.strictEqual(await get('info.failures'), 0);
-                assert.ok(sim.log.every(r => r.qty <= 32), 'keine Anfrage ueber 32 Register');
+                assert.ok(
+                    sim.log.every(r => r.qty <= 32),
+                    'keine Anfrage ueber 32 Register',
+                );
             });
         });
     },

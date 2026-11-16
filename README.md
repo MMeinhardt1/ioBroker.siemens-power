@@ -8,8 +8,8 @@ ioBroker adapter for Siemens SENTRON 7KT PAC1600 energy meters via Modbus – di
 
 ## Supported models
 
-| Model | Status |
-|---|---|
+| Model                                       | Status |
+| ------------------------------------------- | ------ |
 | Siemens 7KT1666 (3-phase, 80 A, Modbus RTU) | tested |
 
 Other devices of the series (e.g. 7KT1665 for current transformers or the single-phase 7KT1661) have their own register tables. They can be added as a new file in `lib/models/`, registered in `lib/models/index.js` and in the dropdown in `admin/jsonConfig.json`.
@@ -23,16 +23,16 @@ Other devices of the series (e.g. 7KT1665 for current transformers or the single
 
 ## Data points
 
-| Folder | Content |
-|---|---|
-| `Spannung` | voltage L1-N, L2-N, L3-N, L1-L2, L2-L3, L3-L1, system averages |
-| `Strom` | current L1, L2, L3 |
-| `Leistung` | active, reactive and apparent power per phase and total |
-| `Leistungsfaktor` | power factor per phase and total |
-| `Netz.Frequenz` | grid frequency |
-| `Energie` | meter readings active/reactive energy import/export (kWh/kvarh), partial counters |
-| `Verbrauch` | import and export today/yesterday, month/previous month, year/previous year; persist across restarts |
-| `info` | connection, requests, missing answers, cycle duration |
+| Folder            | Content                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| `Spannung`        | voltage L1-N, L2-N, L3-N, L1-L2, L2-L3, L3-L1, system averages                                       |
+| `Strom`           | current L1, L2, L3                                                                                   |
+| `Leistung`        | active, reactive and apparent power per phase and total                                              |
+| `Leistungsfaktor` | power factor per phase and total                                                                     |
+| `Netz.Frequenz`   | grid frequency                                                                                       |
+| `Energie`         | meter readings active/reactive energy import/export (kWh/kvarh), partial counters                    |
+| `Verbrauch`       | import and export today/yesterday, month/previous month, year/previous year; persist across restarts |
+| `info`            | connection, requests, missing answers, cycle duration                                                |
 
 Data point names are in German.
 
@@ -42,6 +42,16 @@ If an answer is missing, the request is repeated without closing the connection.
 
 `tools/migration_von_modbus.js` (ioBroker JavaScript script) copies the InfluxDB settings, keeping the same aliases, from `modbus.0.holdingRegisters.*` to the new data points. Grafana keeps working unchanged. Run it once with `DRY_RUN = true` first.
 
+## Troubleshooting
+
+Set the instance log level to **debug** to see:
+
+- every Modbus request with its response time (`FC03 104+16: ok in 87 ms`), missing answers and retries,
+- one summary line per poll cycle (`Cycle: 22/22 blocks ok, 5 values changed, 1450 ms, slowest answer 120 ms`),
+- with the option _Log raw register values_ additionally every received block as raw numbers.
+
+The states under `info.*` (requests, timeouts, retries, cycle duration, slowest answer) are always available.
+
 ## Installation
 
 ```bash
@@ -50,6 +60,14 @@ iob add siemens-power
 ```
 
 ## Changelog
+
+### 0.2.0 (2026-11-16)
+
+- Adapter renamed from `siemens-7kt1666` to `siemens-power` (repository `ioBroker.siemens-power`); data points are now `siemens-power.0.*`
+- Detailed debug logging: response time of every request, one summary line per poll cycle, optional raw register dump (new option _Log raw register values_)
+- New state `info.responseMsMax` (slowest answer in the last poll cycle)
+- IP address / host name is checked in the admin UI (cannot be saved when invalid) and cleaned up at start-up (e.g. a trailing comma)
+- New instances are created disabled, so they do not start before they are configured
 
 ### 0.1.0 (2026-11-15)
 

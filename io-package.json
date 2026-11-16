@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "siemens-power",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "news": {
+            "0.2.0": {
+                "en": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "de": "Umbenannt in siemens-power, ausführliches Debug-Log (Antwortzeit je Anfrage, Zusammenfassung je Zyklus, optional Rohwerte), neuer Datenpunkt info.responseMsMax, Prüfung der IP-Adresse im Admin und beim Start, neue Instanzen starten deaktiviert",
+                "ru": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "pt": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "nl": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "fr": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "it": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "es": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "pl": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "uk": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled",
+                "zh-cn": "Renamed to siemens-power, detailed debug logging (response time per request, cycle summary, optional raw register dump), new state info.responseMsMax, IP/host validation in admin and at start-up, new instances start disabled"
+            },
             "0.1.0": {
                 "en": "initial release: Siemens 7KT1666, daily/monthly/yearly consumption",
                 "de": "Erstveröffentlichung: Siemens 7KT1666, Verbrauch je Tag/Monat/Jahr",
@@ -98,7 +111,8 @@
         "timeout": 3000,
         "requestDelay": 100,
         "retries": 1,
-        "maxBlock": 32
+        "maxBlock": 32,
+        "logRawValues": false
     },
     "objects": [],
     "instanceObjects": [

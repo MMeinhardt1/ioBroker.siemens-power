@@ -2,13 +2,16 @@
   "Baud rate": "Baudrate",
   "Connection": "Verbindung",
   "Connection type": "Verbindungsart",
+  "Diagnostics": "Diagnose",
   "IP address / host": "IP-Adresse / Host",
+  "Log raw register values (debug)": "Rohwerte der Register ins Log schreiben (Debug)",
   "Max. registers per request": "Maximale Register pro Anfrage",
   "Modbus TCP": "Modbus TCP",
   "Modbus unit ID": "Modbus-Geräteadresse",
   "Model": "Modell",
   "Parity": "Parität",
   "Pause between requests (ms)": "Pause zwischen Anfragen (ms)",
+  "Please enter a valid IPv4 address (e.g. 192.168.1.10) or host name": "Bitte eine gültige IPv4-Adresse (z. B. 192.168.1.10) oder einen Hostnamen eingeben",
   "Poll interval (s)": "Abfrageintervall (s)",
   "Polling": "Abfrage",
   "Port": "Port",
@@ -18,5 +21,6 @@
   "Serial RS-485": "Seriell RS-485",
   "Serial port": "Serielle Schnittstelle",
   "Stop bits": "Stoppbits",
-  "The 7KT1666 handles at most about 32": "Der 7KT1666 verarbeitet höchstens etwa 32"
+  "The 7KT1666 handles at most about 32": "Der 7KT1666 verarbeitet höchstens etwa 32",
+  "Writes every received block as raw numbers at log level debug. Only for troubleshooting – produces many log lines.": "Schreibt jeden empfangenen Block als Rohzahlen ins Log (Stufe debug). Nur zur Fehlersuche – erzeugt viele Logzeilen."
 }

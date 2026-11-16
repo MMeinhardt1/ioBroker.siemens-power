@@ -90,7 +90,9 @@ function startSimulator(opt) {
             }
         });
     });
-    return new Promise(resolve => server.listen(opt.port, '127.0.0.1', () => resolve({ server, registers: opt.registers, log })));
+    return new Promise(resolve =>
+        server.listen(opt.port, '127.0.0.1', () => resolve({ server, registers: opt.registers, log })),
+    );
 }
 
 module.exports = { startSimulator };

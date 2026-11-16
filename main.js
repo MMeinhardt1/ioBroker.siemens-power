@@ -11,6 +11,19 @@ const { buildBlocks, decode } = require('./lib/decoder');
 const { getModel } = require('./lib/models');
 const { Statistics } = require('./lib/statistics');
 
+/**
+ * Check an IPv4 address or host name (same rule as the validator in admin/jsonConfig.json).
+ *
+ * @param {string} host - cleaned-up host
+ * @returns {boolean} true if usable
+ */
+function isValidHost(host) {
+    const ipv4 = /^((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
+    const name =
+        /^(?=.{1,253}$)(?!\d+(\.\d+)*$)([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
+    return ipv4.test(host) || name.test(host);
+}
+
 const STAT_TICK_MS = 60_000;
 const RECONNECT_AFTER_FAILURES = 3;
 
@@ -36,6 +49,8 @@ class Siemens7kt extends utils.Adapter {
         this._invalid = new Set();
         this._last = new Map();
         this._objects = new Map();
+        /** values changed in the current poll cycle (for the debug summary) */
+        this._changed = 0;
 
         this.on('ready', this.onReady.bind(this));
         this.on('unload', this.onUnload.bind(this));
@@ -46,14 +61,23 @@ class Siemens7kt extends utils.Adapter {
      */
     async onReady() {
         const cfg = this.config;
+        // tolerate typos such as "192.168.1.10," or " http://host/"
+        cfg.host = String(cfg.host || '')
+            .trim()
+            .replace(/^[a-z]+:\/\//i, '')
+            .replace(/^[\s,;]+|[\s,;/]+$/g, '');
         await this.setStateAsync('info.connection', { val: false, ack: true });
         this.model = getModel(cfg.model);
         if (!this.model) {
             this.log.error(`Unbekanntes Modell "${cfg.model}" – bitte in der Instanz-Konfiguration wählen`);
             return;
         }
-        if (cfg.connectionType !== 'serial' && !cfg.host) {
-            this.log.warn('Keine IP-Adresse konfiguriert – bitte die Instanz konfigurieren');
+        if (cfg.connectionType !== 'serial' && !isValidHost(cfg.host)) {
+            this.log.warn(
+                cfg.host
+                    ? `Invalid IP address / host name "${cfg.host}" – please check the instance configuration`
+                    : 'No IP address configured – please configure the instance',
+            );
             return;
         }
         this.log.info(`Modell: ${this.model.label}`);
@@ -103,6 +127,7 @@ class Siemens7kt extends utils.Adapter {
             ['info.failures', 'Anfragen ohne Antwort (auch nach Wiederholung)', 'number', 'value'],
             ['info.lastTimeout', 'Zeitpunkt der letzten ausgebliebenen Antwort', 'number', 'date'],
             ['info.cycleMs', 'Dauer des letzten Abfragezyklus', 'number', 'value'],
+            ['info.responseMsMax', 'Längste Antwortzeit im letzten Abfragezyklus', 'number', 'value'],
         ];
         for (const [id, name, type, role] of info) {
             await this._ensureObject(id, {
@@ -111,7 +136,7 @@ class Siemens7kt extends utils.Adapter {
                 role,
                 read: true,
                 write: false,
-                unit: id === 'info.cycleMs' ? 'ms' : undefined,
+                unit: id === 'info.cycleMs' || id === 'info.responseMsMax' ? 'ms' : undefined,
             });
         }
         await this.setStateAsync('info.model', { val: this.model.label, ack: true });
@@ -193,6 +218,7 @@ class Siemens7kt extends utils.Adapter {
             return;
         }
         this._last.set(rel, val);
+        this._changed++;
         this.setStateAsync(rel, { val, ack: true }).catch(e => this.log.warn(`Datenpunkt ${rel}: ${e.message}`));
     }
 
@@ -251,15 +277,25 @@ class Siemens7kt extends utils.Adapter {
             maxQty: Math.max(2, Math.min(this.model.maxBlock, Number(this.config.maxBlock) || this.model.maxBlock)),
             invalid: this._invalid,
         });
+        let okBlocks = 0;
+        this._changed = 0;
         for (const b of blocks) {
             if (this._stopped) {
                 return;
             }
-            await this._readBlock(b);
+            if (await this._readBlock(b)) {
+                okBlocks++;
+            }
             if (!this.modbus.connected || this.modbus.stats.consecutiveFailures >= RECONNECT_AFTER_FAILURES) {
                 break;
             }
         }
+        const maxMs = this.modbus.takeMaxResponseMs();
+        this.log.debug(
+            `Cycle: ${okBlocks}/${blocks.length} blocks ok, ${this._changed} values changed, ` +
+                `${Date.now() - t0} ms, slowest answer ${maxMs} ms`,
+        );
+        this._set('info.responseMsMax', maxMs);
         this.stats.update();
         const s = this.modbus.stats;
         this._set('info.requests', s.requests);
@@ -290,6 +326,9 @@ class Siemens7kt extends utils.Adapter {
     async _readBlock(b) {
         try {
             const data = await this.modbus.readHolding(b.start, b.qty);
+            if (this.config.logRawValues) {
+                this.log.debug(`Raw ${b.start}-${b.start + b.qty - 1}: ${data.join(' ')}`);
+            }
             for (const reg of b.regs) {
                 const d = decode(reg, data, b.start);
                 if (d) {

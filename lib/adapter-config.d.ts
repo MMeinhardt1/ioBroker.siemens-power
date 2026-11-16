@@ -21,6 +21,7 @@ declare global {
             requestDelay: number;
             retries: number;
             maxBlock: number;
+            logRawValues: boolean;
         }
     }
 }

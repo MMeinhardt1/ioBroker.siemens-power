@@ -1,6 +1,6 @@
 {
   "name": "iobroker.siemens-power",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "ioBroker adapter for Siemens 7KT PAC1600 energy meters (7KT1666) via Modbus RTU/TCP",
   "author": {
     "name": "MMeinhardt1"
