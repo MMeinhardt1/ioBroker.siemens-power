@@ -56,7 +56,7 @@
         "platform": "Javascript/Node.js",
         "icon": "siemens-power.png",
         "extIcon": "https://raw.githubusercontent.com/MMeinhardt1/ioBroker.siemens-power/main/admin/siemens-power.png",
-        "enabled": true,
+        "enabled": false,
         "readme": "https://github.com/MMeinhardt1/ioBroker.siemens-power/blob/main/README.md",
         "loglevel": "info",
         "mode": "daemon",
