@@ -62,35 +62,54 @@ jobs:
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
 
-  # Creates a GitHub release when a version tag (e.g. v0.2.0) is pushed.
+  # Creates the GitHub release (and its tag v<version>) automatically:
+  # - after a successful push to main whose package.json version has no release yet, or
+  # - when a version tag (e.g. v0.2.0) is pushed by hand.
   # Publishing to npm is intentionally not part of this workflow – the adapters are installed from GitHub.
   deploy:
     needs: [check-and-lint, adapter-tests]
     if: |
       contains(github.event.head_commit.message, '[skip ci]') == false &&
       github.event_name == 'push' &&
-      startsWith(github.ref, 'refs/tags/v')
+      (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
-    # Write permission is required to create GitHub releases
+    # Write permission is required to create tags and GitHub releases
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v5
 
-      - name: Check that the tag matches the package version
+      - name: Determine version and check consistency
+        id: version
         run: |
-          TAG="${GITHUB_REF_NAME#v}"
           PKG="$(node -p "require('./package.json').version")"
           IO="$(node -p "require('./io-package.json').common.version")"
-          echo "tag=$TAG package.json=$PKG io-package.json=$IO"
-          if [ "$TAG" != "$PKG" ] || [ "$TAG" != "$IO" ]; then
-            echo "::error::Tag v$TAG does not match package.json ($PKG) / io-package.json ($IO)"
+          if [ "$PKG" != "$IO" ]; then
+            echo "::error::package.json ($PKG) and io-package.json ($IO) disagree"
             exit 1
+          fi
+          if [ "$GITHUB_REF_TYPE" = "tag" ] && [ "${GITHUB_REF_NAME#v}" != "$PKG" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match the package version $PKG"
+            exit 1
+          fi
+          echo "version=$PKG" >> "$GITHUB_OUTPUT"
+          echo "tag=v$PKG" >> "$GITHUB_OUTPUT"
+
+      - name: Check whether the release already exists
+        id: exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "${{ steps.version.outputs.tag }}" > /dev/null 2>&1; then
+            echo "release=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=no" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Extract release notes from the README changelog
+        if: steps.exists.outputs.release == 'no' || github.ref_type == 'tag'
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION="${{ steps.version.outputs.version }}"
           awk -v v="$VERSION" '
             $0 ~ "^### " v "( |$)" { found = 1; next }
             found && /^##/ { exit }
@@ -103,12 +122,14 @@ jobs:
           cat release-notes.md
 
       - name: Create or update the GitHub release
+        if: steps.exists.outputs.release == 'no' || github.ref_type == 'tag'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # A release created by hand in the GitHub UI (which also creates the tag) gets its notes filled in here.
-          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
-            gh release edit "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md
+          TAG="${{ steps.version.outputs.tag }}"
+          if [ "${{ steps.exists.outputs.release }}" = "yes" ]; then
+            gh release edit "$TAG" --title "$TAG" --notes-file release-notes.md
           else
-            gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md --verify-tag
+            # creates the tag on the tested commit if it does not exist yet
+            gh release create "$TAG" --title "$TAG" --notes-file release-notes.md --target "$GITHUB_SHA"
           fi
