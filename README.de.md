@@ -66,6 +66,7 @@ iob add siemens-power
 - Neuer Datenpunkt `info.responseMsMax` (längste Antwortzeit im letzten Abfragezyklus)
 - IP-Adresse / Hostname wird in der Admin-Oberfläche geprüft (ungültig = nicht speicherbar) und beim Start bereinigt (z. B. ein Komma am Ende)
 - Neue Instanzen werden deaktiviert angelegt und starten erst nach der Konfiguration
+- Versions-Tags legen jetzt ein GitHub-Release mit diesen Notizen an (keine Veröffentlichung auf npm)
 
 ### 0.1.0 (2026-11-15)
 

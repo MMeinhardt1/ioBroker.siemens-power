@@ -68,6 +68,7 @@ iob add siemens-power
 - New state `info.responseMsMax` (slowest answer in the last poll cycle)
 - IP address / host name is checked in the admin UI (cannot be saved when invalid) and cleaned up at start-up (e.g. a trailing comma)
 - New instances are created disabled, so they do not start before they are configured
+- Version tags now create a GitHub release with these notes (no npm publishing)
 
 ### 0.1.0 (2026-11-15)
 
