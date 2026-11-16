@@ -1,6 +1,6 @@
-![Logo](admin/siemens-7kt1666.png)
+![Logo](admin/siemens-power.png)
 
-# ioBroker.siemens-7kt1666
+# ioBroker.siemens-power
 
 **[English version](README.md)**
 
@@ -43,8 +43,8 @@ Das Skript `tools/migration_von_modbus.js` überträgt die InfluxDB-Einstellunge
 ## Installation
 
 ```bash
-iob url https://github.com/MMeinhardt1/iobroker.siemens-7KT1666
-iob add siemens-7kt1666
+iob url https://github.com/MMeinhardt1/ioBroker.siemens-power
+iob add siemens-power
 ```
 
 ## Changelog

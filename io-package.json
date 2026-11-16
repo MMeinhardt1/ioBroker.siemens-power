@@ -1,6 +1,6 @@
 {
     "common": {
-        "name": "siemens-7kt1666",
+        "name": "siemens-power",
         "version": "0.1.0",
         "news": {
             "0.1.0": {
@@ -54,10 +54,10 @@
             "energy meter"
         ],
         "platform": "Javascript/Node.js",
-        "icon": "siemens-7kt1666.png",
-        "extIcon": "https://raw.githubusercontent.com/MMeinhardt1/ioBroker.siemens-7KT1666/main/admin/siemens-7kt1666.png",
+        "icon": "siemens-power.png",
+        "extIcon": "https://raw.githubusercontent.com/MMeinhardt1/ioBroker.siemens-power/main/admin/siemens-power.png",
         "enabled": true,
-        "readme": "https://github.com/MMeinhardt1/ioBroker.siemens-7KT1666/blob/main/README.md",
+        "readme": "https://github.com/MMeinhardt1/ioBroker.siemens-power/blob/main/README.md",
         "loglevel": "info",
         "mode": "daemon",
         "type": "energy",

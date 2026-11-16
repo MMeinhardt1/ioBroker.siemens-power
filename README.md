@@ -1,6 +1,6 @@
-![Logo](admin/siemens-7kt1666.png)
+![Logo](admin/siemens-power.png)
 
-# ioBroker.siemens-7kt1666
+# ioBroker.siemens-power
 
 **[Deutsche Version](README.de.md)**
 
@@ -45,8 +45,8 @@ If an answer is missing, the request is repeated without closing the connection.
 ## Installation
 
 ```bash
-iob url https://github.com/MMeinhardt1/iobroker.siemens-7KT1666
-iob add siemens-7kt1666
+iob url https://github.com/MMeinhardt1/ioBroker.siemens-power
+iob add siemens-power
 ```
 
 ## Changelog

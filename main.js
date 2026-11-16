@@ -1,7 +1,7 @@
 'use strict';
 
 /*
- * ioBroker.siemens-7kt1666
+ * ioBroker.siemens-power
  * Siemens SENTRON 7KT PAC1600 Energiezaehler ueber Modbus (RTU ueber TCP, Modbus TCP oder RS-485).
  */
 
@@ -22,7 +22,7 @@ class Siemens7kt extends utils.Adapter {
      * @param {Partial<utils.AdapterOptions>} [options] - Adapter-Optionen
      */
     constructor(options) {
-        super({ ...options, name: 'siemens-7kt1666' });
+        super({ ...options, name: 'siemens-power' });
         /** @type {ModbusConnection | null} */
         this.modbus = null;
         /** @type {import('./lib/models/types').ModelDef | undefined} */

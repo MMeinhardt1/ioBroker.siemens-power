@@ -1,11 +1,11 @@
 {
-  "name": "iobroker.siemens-7kt1666",
+  "name": "iobroker.siemens-power",
   "version": "0.1.0",
   "description": "ioBroker adapter for Siemens 7KT PAC1600 energy meters (7KT1666) via Modbus RTU/TCP",
   "author": {
     "name": "MMeinhardt1"
   },
-  "homepage": "https://github.com/MMeinhardt1/ioBroker.siemens-7kt1666",
+  "homepage": "https://github.com/MMeinhardt1/ioBroker.siemens-power",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/MMeinhardt1/ioBroker.siemens-7kt1666.git"
+    "url": "https://github.com/MMeinhardt1/ioBroker.siemens-power.git"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.4.3",
@@ -59,6 +59,6 @@
     "release": "release-script"
   },
   "bugs": {
-    "url": "https://github.com/MMeinhardt1/ioBroker.siemens-7kt1666/issues"
+    "url": "https://github.com/MMeinhardt1/ioBroker.siemens-power/issues"
   }
 }

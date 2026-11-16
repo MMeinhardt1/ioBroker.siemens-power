@@ -38,7 +38,7 @@ tests.integration(path.join(__dirname, '..'), {
             it('liest Messwerte und Zaehlerstaende', async function () {
                 this.timeout(60_000);
                 const harness = getHarness();
-                await harness.changeAdapterConfig('siemens-7kt1666', {
+                await harness.changeAdapterConfig('siemens-power', {
                     native: {
                         model: 'siemens-7kt1666',
                         connectionType: 'tcprtu',
@@ -54,7 +54,7 @@ tests.integration(path.join(__dirname, '..'), {
                 });
                 await harness.startAdapterAndWait();
                 await new Promise(r => setTimeout(r, 6_000));
-                const ns = 'siemens-7kt1666.0.';
+                const ns = 'siemens-power.0.';
                 const get = async id => (await harness.states.getStateAsync(ns + id))?.val;
                 assert.strictEqual(await get('info.connection'), true);
                 assert.strictEqual(await get('Spannung.L1_N'), 231.5);

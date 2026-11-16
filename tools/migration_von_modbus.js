@@ -1,11 +1,11 @@
-// Umzug vom Modbus-Adapter (modbus.0, Siemens 7KT1666) auf den Adapter siemens-7kt1666.0
+// Umzug vom Modbus-Adapter (modbus.0, Siemens 7KT1666) auf den Adapter siemens-power.0
 // Typ: JavaScript (ioBroker-Skript). Voraussetzung: in der javascript-Instanz "Kommando setObject erlauben".
 //
 // Ablauf:
-//  1. siemens-7kt1666.0 einmal starten (legt die Datenpunkte an), dann modbus.0 stoppen.
+//  1. siemens-power.0 einmal starten (legt die Datenpunkte an), dann modbus.0 stoppen.
 //     Die Bridge bedient je Port nur einen Client – beide gleichzeitig auf Port 5022 geht nicht.
 //  2. Dieses Skript mit DRY_RUN = true starten, Log pruefen, dann mit DRY_RUN = false erneut starten.
-//  3. In midea-heatpump.0 als Stromzaehler "siemens-7kt1666.0.Energie.Wirk_Bezug" eintragen.
+//  3. In midea-heatpump.0 als Stromzaehler "siemens-power.0.Energie.Wirk_Bezug" eintragen.
 //
 // Was das Skript macht: Fuer jedes Register unter modbus.0.holdingRegisters wird anhand der Adresse der passende
 // Datenpunkt im neuen Adapter gesucht. Die InfluxDB-Einstellung (inkl. Alias, z. B. SZ_Wirkenergie_Bezug) wird
@@ -13,7 +13,7 @@
 
 const DRY_RUN = true;
 const ALT = 'modbus.0.holdingRegisters.';
-const NEU = 'siemens-7kt1666.0.';
+const NEU = 'siemens-power.0.';
 const INFLUX = 'influxdb.0';
 
 // Busadresse -> neuer Datenpunkt
