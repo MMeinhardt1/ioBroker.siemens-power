@@ -17,6 +17,7 @@ export default [
             'admin/admin.d.ts',
             'admin/blockly.js',
             '**/adapter-config.d.ts',
+            'tools/**', // ioBroker-JavaScript-Skripte (Sandbox-Globals wie $, log, getObjectAsync)
             '**/types.d.ts',
         ],
     },

@@ -202,6 +202,7 @@ class Siemens7kt extends utils.Adapter {
     async _restoreStatistics() {
         try {
             const states = await this.getStatesAsync('Verbrauch.Intern.*');
+            /** @type {Record<string, ioBroker.StateValue>} */
             const rel = {};
             for (const [id, st] of Object.entries(states || {})) {
                 if (st) {

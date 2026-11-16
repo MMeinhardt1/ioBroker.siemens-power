@@ -5,5 +5,5 @@
 		"strictNullChecks": false
 	},
 	"include": ["**/*.js", "**/*.d.ts"],
-	"exclude": ["**/build", "node_modules/", "widgets/", "test/", "main.test.js"]
+	"exclude": ["**/build", "node_modules/", "widgets/", "test/", "tools/", "main.test.js"]
 }
