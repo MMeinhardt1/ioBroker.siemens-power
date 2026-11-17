@@ -61,6 +61,10 @@ iob add siemens-power
 
 ## Changelog
 
+### 0.2.1 (2026-11-17)
+
+- Translations of the admin interface (`admin/i18n`) and of title, description and news in `io-package.json` for es, fr, it, nl, pl, pt, ru, uk and zh-cn (previously English text in these languages)
+
 ### 0.2.0 (2026-11-16)
 
 - Adapter renamed from `siemens-7kt1666` to `siemens-power` (repository `ioBroker.siemens-power`); data points are now `siemens-power.0.*`
